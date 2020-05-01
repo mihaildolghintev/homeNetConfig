@@ -1,0 +1,6 @@
+{
+  "coc.preferences.noselect": false,
+  "suggest.floatEnable": true,
+  "diagnostic.messageTarget": "float",
+  "coc.preferences.hoverTarget": "float"
+}
