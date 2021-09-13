@@ -10,7 +10,8 @@
     "json",
     "css",
     "scss",
-    "go"
+    "go",
+    "ruby",
   ],
   "coc.preferences.hoverTarget": "float",
   "languageserver": {
@@ -23,7 +24,6 @@
   "go.goplsOptions": {
     "staticcheck": true
   },
-  "coc.preferences.formatOnSaveFiletypes": ["ruby"],
   "solargraph.autoformat": true,
   "solargraph.formatting": true,
   "solargraph.hover": true,
