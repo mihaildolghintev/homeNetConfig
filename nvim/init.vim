@@ -8,7 +8,11 @@ Plug 'ap/vim-buftabline'		" buffers to tabline
 Plug 'junegunn/fzf', {'do': {-> fzf#install()} }
 Plug 'junegunn/fzf.vim'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rails'
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " Completion as in vscode
 
