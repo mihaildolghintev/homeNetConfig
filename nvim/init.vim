@@ -3,18 +3,34 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'		" NERD Tree
 Plug 'Xuyuanp/nerdtree-git-plugin' 	" show git status in Nerd tree
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'itchyny/lightline.vim'		" UI
-Plug 'ap/vim-buftabline'		" buffers to tabline
+"Plug 'itchyny/lightline.vim'		" UI
+Plug 'hoob3rt/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'junegunn/fzf', {'do': {-> fzf#install()} }
 Plug 'junegunn/fzf.vim'
 
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-haml'
+Plug 'thoughtbot/vim-rspec'
+Plug 'pechorin/any-jump.vim'
+Plug 'andymass/vim-matchup'
+Plug 'tpope/vim-rbenv'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'vim-test/vim-test'
+Plug 'voldikss/vim-floaterm'
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} " Completion as in vscode
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'jiangmiao/auto-pairs'
 
@@ -42,6 +58,7 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'Rigellute/shades-of-purple.vim'
 "Plug 'patstockwell/vim-monokai-tasty'
 Plug 'sainnhe/gruvbox-material'
+Plug 'projekt0n/github-nvim-theme'
 "Plug 'cormacrelf/vim-colors-github'
 "Plug 'dracula/vim', {'as': 'dracula'}
 "
@@ -87,10 +104,12 @@ set background=dark
 "colorscheme one
 "colorscheme palenight
 "colorscheme dracula
-colorscheme gruvbox-material
-"colorscheme github
+"colorscheme gruvbox-material
+colorscheme github_dark
 nnoremap <A-f> :Ag<CR>
-nnoremap <C-p> :Files<CR>
+nnoremap <C-p> <cmd>Telescope find_files<CR>
+nnoremap <C-u> <cmd>Telescope help_tags<CR>
+nnoremap <Leader>m <cmd>Telescope buffers<CR>
 
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
@@ -123,9 +142,16 @@ set signcolumn=yes
 inoremap <silent><expr> <c-space> coc#refresh()
 
 
+lua << EOF
+require('lualine').setup {
+  options = {
+    theme = 'github'
+    } 
+  }
+EOF
 " Add diagnostic info for https://github.com/itchyny/lightline.vim
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox_material',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
@@ -136,7 +162,9 @@ let g:lightline = {
       \ }
 
 
-let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx,*.re'
+let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx,*.re,*.erb'
+
+autocmd BufNewFile,BufRead *.html.erb set filetype=html.eruby
 
 
 " Use K to show documentation in preview window
@@ -150,26 +178,18 @@ function! s:show_documentation()
   endif
 endfunction
 
-" disable all linters as that is taken care of by coc.nvim
-let g:go_diagnostics_enabled = 0
-let g:go_metalinter_enabled = []
 
-" don't jump to errors after metalinter is invoked
-let g:go_jump_to_error = 0
+let g:snipMate = { 'snippet_version' : 1 }
 
-" run go imports on file save
-let g:go_fmt_command = "goimports"
+let test#strategy = "floaterm"
+let g:floaterm_keymap_kill = '<Esc>'
+nnoremap   <silent>   <A-Backspace>    :FloatermNew --cwd=<root><CR>
 
-" automatically highlight variable your cursor is on
-let g:go_auto_sameids = 0
+nmap  <leader>tn :TestNearest<CR>
+nmap  <leader>tf :TestFile<CR>
+nmap  <leader>ts :TestSuite<CR>
+nmap  <leader>tl :TestLast<CR>
 
-autocmd BufEnter *.go nmap <leader>t <Plug>(go-test)
-autocmd BufEnter *.go nmap <leader>tt <Plug>(go-test-func)
-autocmd BufEnter *.go nmap <leader>c  <Plug>(go-coverage-toggle)
-autocmd BufEnter *.go nmap <leader>i  <Plug>(go-info)
-autocmd BufEnter *.go nmap <leader>ii  <Plug>(go-implements)
-autocmd BufEnter *.go nmap <leader>ci  <Plug>(go-describe)
-autocmd BufEnter *.go nmap <leader>cc  <Plug>(go-callers)
 nmap <leader>cr <Plug>(coc-references)
 nmap <C-a> <C-o>
 nmap <C-d> <Plug>(coc-definition)

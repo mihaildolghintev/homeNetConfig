@@ -1,5 +1,17 @@
 {
   "suggest.noselect": false,
+  "suggest.floatConfig": {
+    "border": true
+  },
+  "diagnostic.floatConfig": {
+    "border": true
+  },
+  "signature.floatConfig": {
+    "border": true
+  },
+  "hover.floatConfig": {
+    "border": true
+  },
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "!",
   "diagnostic.infoSign": "?",
@@ -11,14 +23,18 @@
     "css",
     "scss",
     "go",
-    "ruby",
+    "ruby"
   ],
   "coc.preferences.hoverTarget": "float",
   "languageserver": {
     "golang": {
       "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
+      "rootPatterns": [
+        "go.mod"
+      ],
+      "filetypes": [
+        "go"
+      ]
     }
   },
   "go.goplsOptions": {
@@ -28,5 +44,6 @@
   "solargraph.formatting": true,
   "solargraph.hover": true,
   "solargraph.diagnostics": true,
-
+  "tabnine.priority": 99,
+  "ignore_all_lsp": true
 }
