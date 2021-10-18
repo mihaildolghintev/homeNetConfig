@@ -1,7 +1,7 @@
 {
   "suggest.noselect": false,
   "suggest.floatConfig": {
-    "border": true
+    "border": true,
   },
   "diagnostic.floatConfig": {
     "border": true
