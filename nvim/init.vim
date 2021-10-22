@@ -4,8 +4,8 @@ Plug 'kyazdani42/nvim-tree.lua'
 Plug 'Xuyuanp/nerdtree-git-plugin' 	" show git status in Nerd tree
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'hoob3rt/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'junegunn/fzf', {'do': {-> fzf#install()} }
+Plug 'ryanoasis/vim-devicons'
+Plug 'junegunn/fzf', {'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -22,7 +22,7 @@ Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-rbenv'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-test/vim-test'
 Plug 'voldikss/vim-floaterm'
@@ -33,7 +33,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'jiangmiao/auto-pairs'
 
 
-Plug 'lilydjwg/colorizer'
+Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'scrooloose/nerdcommenter'		" NERD commenter. Quickly comment lines
 Plug 'tpope/vim-commentary'
@@ -57,7 +57,7 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'Rigellute/shades-of-purple.vim'
 "Plug 'patstockwell/vim-monokai-tasty'
 Plug 'sainnhe/gruvbox-material'
-"Plug 'projekt0n/github-nvim-theme'
+Plug 'projekt0n/github-nvim-theme'
 "Plug 'https://gitlab.com/yorickpeterse/vim-paper.git'
 "Plug 'cormacrelf/vim-colors-github'
 "Plug 'dracula/vim', {'as': 'dracula'}
@@ -68,6 +68,7 @@ call plug#end()
 filetype plugin indent on
 syntax on
 
+set encoding=utf8
 
 "set termguicolors
 set list
@@ -77,7 +78,7 @@ set foldmethod=marker
 set mouse=a
 set nowrap
 set number
-set enc=utf-8	" utf-8 by default in files
+set enc=utf8	" utf-8 by default in files
 set ls=2	" show status bar always
 set hlsearch	" highlight search
 set showtabline=0
@@ -93,6 +94,7 @@ set splitright
 "highlight Pmenu ctermbg=gray guibg=gray " popup autocomplete menu color
 
 set t_Co=256
+set guifont=JetBrainsMono\ Nerd\ Font\ 11
 "highlight Normal guibg=black guifg=white
 
 set cursorline
@@ -108,9 +110,9 @@ set termguicolors
 "colorscheme one
 "colorscheme palenight
 "colorscheme dracula
-colorscheme gruvbox-material
+"colorscheme gruvbox-material
 "colorscheme paper
-"colorscheme github_dark
+colorscheme github_light
 nnoremap <A-f> :Ag<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <C-u> :Tags<CR>
@@ -151,6 +153,7 @@ set signcolumn=yes
 inoremap <silent><expr> <c-space> coc#refresh()
 
 
+lua require'colorizer'.setup()
 
 lua<< EOF
 require'nvim-tree'.setup({
@@ -160,27 +163,11 @@ view = {
 })
 EOF
 
-lua<< EOF
-require'nvim-web-devicons'.setup {
- -- your personnal icons can go here (to override)
- -- DevIcon will be appended to `name`
- override = {
-  zsh = {
-    icon = "",
-    color = "#428850",
-    name = "Zsh"
-  }
- };
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
- default = true;
-}
-EOF
 
 lua << EOF
 require('lualine').setup {
   options = {
-    theme = 'gruvbox'
+    theme = 'github'
     } 
   }
 EOF
@@ -199,7 +186,7 @@ let g:lightline = {
 
 let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx,*.re,*.erb'
 
-autocmd BufNewFile,BufRead *.html.erb set filetype=html.eruby
+autocmd BufNewFile,BufRead *.html.erb set filetype=eruby
 
 
 " Use K to show documentation in preview window
@@ -220,8 +207,12 @@ let test#strategy = "neovim"
 let test#neovim#term_position = "topleft"
 let test#neovim#term_position = "vert"
 " let test#neovim#term_position = "vert botright 30"
+let g:floaterm_open_command = 'vsplit'
 let g:floaterm_keymap_kill = '<A-g>'
-nnoremap   <silent>   <A-Backspace>    :FloatermNew --cwd=<root><CR>
+"nnoremap   <silent>   <A-Backspace>    :FloatermNew --height=0.4 --width=0.98 --wintype=floating --position=bottom --autoclose=2<CR>
+"tnoremap   <silent>   <A-Backspace>    <C-\><C-n>:FloatermNew --height=0.4 --width=0.98 --wintype=floating --position=bottom --autoclose=2<CR>
+nnoremap   <silent>   <A-Backspace>   :FloatermToggle<CR>
+tnoremap   <silent>   <A-Backspace>   <C-\><C-n>:FloatermToggle<CR>
 
 nmap  <leader>tn :TestNearest<CR>
 nmap  <leader>tf :TestFile<CR>
@@ -263,12 +254,6 @@ let g:nvim_tree_window_picker_exclude = {
 " indicates to the window picker that the buffer's window should not be
 " selectable.
 let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 0,
-    \ 'files': 0,
-    \ 'folder_arrows': 0,
-    \ }
 "If 0, do not show the icons for one of 'git' 'folder' and 'files'
 "1 by default, notice that if 'files' is 1, it will only display
 "if nvim-web-devicons is installed and on your runtimepath.
@@ -277,29 +262,6 @@ let g:nvim_tree_show_icons = {
 
 " default will show icon by default if no icon is provided
 " default shows no icon by default
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★",
-    \   'deleted': "",
-    \   'ignored': "◌"
-    \   },
-    \ 'folder': {
-    \   'arrow_open': "",
-    \   'arrow_closed': "",
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   'symlink_open': "",
-    \   }
-    \ }
 
 nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>

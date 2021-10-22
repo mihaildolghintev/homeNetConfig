@@ -1,7 +1,7 @@
 {
   "suggest.noselect": false,
   "suggest.floatConfig": {
-    "border": true,
+    "border": true
   },
   "diagnostic.floatConfig": {
     "border": true
@@ -23,18 +23,17 @@
     "css",
     "scss",
     "go",
-    "ruby"
+    "ruby",
+    "eruby",
+    "html.eruby",
+    "haml"
   ],
   "coc.preferences.hoverTarget": "float",
   "languageserver": {
     "golang": {
       "command": "gopls",
-      "rootPatterns": [
-        "go.mod"
-      ],
-      "filetypes": [
-        "go"
-      ]
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
     }
   },
   "go.goplsOptions": {
@@ -45,5 +44,14 @@
   "solargraph.hover": true,
   "solargraph.diagnostics": true,
   "tabnine.priority": 99,
-  "ignore_all_lsp": true
+  "ignore_all_lsp": true,
+  "tailwindCSS.experimental.classRegex": ["class:\\s*\"([^\"]*)\""],
+  "[haml]": {
+    "editor.snippetSuggestions": "bottom",
+    "tailwindCSS.experimental.classRegex": [
+      ["%\\w+([^\\s]*)", "\\.([^\\.]*)"],
+      [":class\\s*=>\\s*\"([^\"]*)"],
+      ["class:\\s+\"([^\"]*)"]
+    ]
+  }
 }
