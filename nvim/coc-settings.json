@@ -53,5 +53,10 @@
       [":class\\s*=>\\s*\"([^\"]*)"],
       ["class:\\s+\"([^\"]*)"]
     ]
+  },
+  "emmet.includeLanguages": {
+    "erb": "html",
+    "eruby": "html",
+    "html.erb": "html"
   }
 }
