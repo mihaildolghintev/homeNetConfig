@@ -79,7 +79,10 @@ set encoding=utf8
 set list
 set clipboard=unnamedplus
 let mapleader = " "
-set foldmethod=marker
+set foldmethod=indent
+set nofoldenable
+set foldlevel=99
+set shiftwidth=2
 set mouse=a
 set nowrap
 set number
@@ -215,6 +218,8 @@ nmap  <leader>tn :TestNearest<CR>
 nmap  <leader>tf :TestFile<CR>
 nmap  <leader>ts :TestSuite<CR>
 nmap  <leader>tl :TestLast<CR>
+
+nnoremap <Tab>   za
 
 nmap <leader>cr <Plug>(coc-references)
 nmap <C-a> <C-o>
