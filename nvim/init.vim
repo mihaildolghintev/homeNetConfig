@@ -7,10 +7,16 @@ Plug 'hoob3rt/lualine.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf', {'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'fannheyward/telescope-coc.nvim'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 
 Plug 'mattn/emmet-vim'
+Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
+
+Plug 'vimwiki/vimwiki'
 
 "Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -62,15 +68,16 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'relastle/bluewery.vim'
 "Plug 'Rigellute/shades-of-purple.vim'
 "Plug 'patstockwell/vim-monokai-tasty'
-Plug 'sainnhe/gruvbox-material'
+"Plug 'sainnhe/gruvbox-material'
 Plug 'projekt0n/github-nvim-theme'
-"Plug 'https://gitlab.com/yorickpeterse/vim-paper.git'
+" Plug 'https://gitlab.com/yorickpeterse/vim-paper.git'
 "Plug 'cormacrelf/vim-colors-github'
 "Plug 'dracula/vim', {'as': 'dracula'}
 "
 " Initialize plugin system
 call plug#end()
 
+set nocompatible
 filetype plugin indent on
 syntax on
 
@@ -86,8 +93,8 @@ set shiftwidth=2
 set mouse=a
 set nowrap
 set number
-set enc=utf8	" utf-8 by default in files
-set ls=2	" show status bar always
+set enc=utf8  " utf-8 by default in files
+set ls=2  " show status bar always
 set hlsearch	" highlight search
 set showtabline=0
 set tabstop=2
@@ -105,8 +112,7 @@ set t_Co=256
 set guifont=JetBrainsMono\ Nerd\ Font\ 11
 "highlight Normal guibg=black guifg=white
 
-set cursorline
-set background=dark
+set background=light
 set termguicolors
 
 "let g:molokai_original = 1
@@ -119,13 +125,30 @@ set termguicolors
 "colorscheme palenight
 "colorscheme dracula
 "colorscheme gruvbox-material
-"colorscheme paper
+" colorscheme paper
 colorscheme github_light
-nnoremap <A-f> :Ag<CR>
-nnoremap <C-p> :Files<CR>
-nnoremap <C-u> :Tags<CR>
-nnoremap <C-o> :Rg<CR>
+"colorscheme zenbones
+
+
+
+" nnoremap <A-f> :Ag<CR>
+" nnoremap <C-p> :Files<CR>
+" nnoremap <C-u> :Tags<CR>
+" nnoremap <C-o> :Rg<CR>
+
+
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-solargraph', 'coc-html', 'coc-css', 'coc-emmet', 'coc-tabnine', 'coc-tailwindcss', 'coc-marketplace', 'coc-tsserver']
+
 nnoremap <Leader>m :Buffers<CR>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-o> <cmd>Telescope live_grep<cr>
+nnoremap <C-e> <cmd>Telescope buffers<cr>
+nnoremap <leader>b <cmd>Telescope file_browser<cr>
+nnoremap ? <cmd>Telescope current_buffer_fuzzy_find<cr>
+nnoremap <leader>e <cmd>Telescope coc diagnostics<cr>
+nnoremap <leader>s <cmd>Telescope coc document_symbols<cr>
+
+command! -nargs=0 Format :call CocAction('format')
 
 
 nnoremap <A-j> <c-w>j
@@ -165,23 +188,36 @@ lua require'colorizer'.setup()
 
 
 lua << EOF
+local actions = require('telescope.actions')
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close
+      },
+    },
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+    }
+  }
+}
+require('telescope').load_extension('fzf')
+require('telescope').load_extension('coc')
+
+EOF
+
+lua << EOF
 require('lualine').setup {
   options = {
-    theme = 'github'
-    } 
+    theme = 'github',
   }
+}
 EOF
-" Add diagnostic info for https://github.com/itchyny/lightline.vim
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'cocstatus': 'coc#status'
-      \ },
-      \ }
 
 
 let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx,*.re,*.erb'
@@ -214,16 +250,26 @@ let g:floaterm_keymap_kill = '<A-g>'
 nnoremap   <silent>   <A-Backspace>   :FloatermToggle<CR>
 tnoremap   <silent>   <A-Backspace>   <C-\><C-n>:FloatermToggle<CR>
 
+imap <BS> <Esc>d?\S?e1<CR>i
+
 nmap  <leader>tn :TestNearest<CR>
 nmap  <leader>tf :TestFile<CR>
 nmap  <leader>ts :TestSuite<CR>
 nmap  <leader>tl :TestLast<CR>
 
 nnoremap <Tab>   za
+nnoremap ma  ^
+vnoremap ma  ^
+nnoremap me  g_
+vnoremap me  g_
+
+nnoremap <silent> <C-\> :vsplit<CR>
+
+nnoremap <silent> ff :Format<CR>
 
 nmap <leader>cr <Plug>(coc-references)
 nmap <C-a> <C-o>
-nmap <C-d> <Plug>(coc-definition)
+nmap <silent> gd <Plug>(coc-definition)
 nmap <leader>r <Plug>(coc-rename)
 
 map <C-n> :NERDTreeToggle<CR>
@@ -231,3 +277,19 @@ let g:NERDTreeWinSize=50
 
 map <leader>g :Neogit<CR>
 
+nnoremap <Leader><Leader> <C-^>
+
+
+call wilder#setup({'modes': [':', '/', '?']})
+
+call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
+      \ 'highlights': {
+      \   'border': 'Normal',
+      \ },
+      \ 'border': 'rounded',
+      \ })))
+
+
+autocmd BufWritePre * :%s/\s\+$//e
+
+let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/'}]

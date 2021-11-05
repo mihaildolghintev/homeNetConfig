@@ -16,35 +16,11 @@
   "diagnostic.warningSign": "!",
   "diagnostic.infoSign": "?",
   "diagnostic.checkCurrentLine": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "html",
-    "json",
-    "css",
-    "scss",
-    "go",
-    "ruby",
-    "eruby",
-    "html.eruby",
-    "haml"
-  ],
-  "coc.preferences.hoverTarget": "float",
-  "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
-    }
-  },
-  "go.goplsOptions": {
-    "staticcheck": true
-  },
   "solargraph.autoformat": true,
   "solargraph.formatting": true,
   "solargraph.hover": true,
   "solargraph.diagnostics": true,
   "tabnine.priority": 99,
-  "ignore_all_lsp": true,
   "tailwindCSS.experimental.classRegex": ["class:\\s*\"([^\"]*)\""],
   "[haml]": {
     "editor.snippetSuggestions": "bottom",
