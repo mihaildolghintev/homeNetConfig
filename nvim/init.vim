@@ -61,7 +61,7 @@ Plug 'yggdroot/indentline'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-"Plug 'rakr/vim-one'
+Plug 'rakr/vim-one'
 "Plug 'tomasr/molokai'
 "Plug 'drewtempelmeyer/palenight.vim'
 "Plug 'morhetz/gruvbox'
@@ -70,6 +70,9 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'patstockwell/vim-monokai-tasty'
 "Plug 'sainnhe/gruvbox-material'
 Plug 'projekt0n/github-nvim-theme'
+Plug 'arzg/vim-colors-xcode'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'noahfrederick/vim-noctu'
 " Plug 'https://gitlab.com/yorickpeterse/vim-paper.git'
 "Plug 'cormacrelf/vim-colors-github'
 "Plug 'dracula/vim', {'as': 'dracula'}
@@ -102,6 +105,7 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
+
 set relativenumber
 set lazyredraw
 set splitright
@@ -112,7 +116,7 @@ set t_Co=256
 set guifont=JetBrainsMono\ Nerd\ Font\ 11
 "highlight Normal guibg=black guifg=white
 
-set background=light
+set background=dark
 set termguicolors
 
 "let g:molokai_original = 1
@@ -126,9 +130,12 @@ set termguicolors
 "colorscheme dracula
 "colorscheme gruvbox-material
 " colorscheme paper
-colorscheme github_light
+"colorscheme github_light
+"colorscheme xcodelight
+"colorscheme xcodedark
+colorscheme nightfly
+"colorscheme noctu
 "colorscheme zenbones
-
 
 
 " nnoremap <A-f> :Ag<CR>
@@ -147,6 +154,8 @@ nnoremap <leader>b <cmd>Telescope file_browser<cr>
 nnoremap ? <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>e <cmd>Telescope coc diagnostics<cr>
 nnoremap <leader>s <cmd>Telescope coc document_symbols<cr>
+nnoremap <leader>i <cmd>Telescope coc implementations<cr>
+nnoremap <leader>l <cmd>Telescope coc locations<cr>
 
 command! -nargs=0 Format :call CocAction('format')
 
@@ -214,7 +223,7 @@ EOF
 lua << EOF
 require('lualine').setup {
   options = {
-    theme = 'github',
+    theme = 'nightfly',
   }
 }
 EOF
@@ -223,7 +232,6 @@ EOF
 let g:closetag_filenames = '*.html,*.xhtml,*.jsx,*.tsx,*.re,*.erb'
 
 autocmd BufNewFile,BufRead *.html.erb set filetype=eruby
-
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -250,12 +258,15 @@ let g:floaterm_keymap_kill = '<A-g>'
 nnoremap   <silent>   <A-Backspace>   :FloatermToggle<CR>
 tnoremap   <silent>   <A-Backspace>   <C-\><C-n>:FloatermToggle<CR>
 
-imap <BS> <Esc>d?\S?e1<CR>i
-
 nmap  <leader>tn :TestNearest<CR>
 nmap  <leader>tf :TestFile<CR>
 nmap  <leader>ts :TestSuite<CR>
 nmap  <leader>tl :TestLast<CR>
+
+nmap <leader>rm :Emodel<Space>
+nmap <leader>rc :Econtroller<Space>
+nmap <leader>rs :Eschema<CR>
+nmap <leader>rv :Eview<Space>
 
 nnoremap <Tab>   za
 nnoremap ma  ^
@@ -266,11 +277,6 @@ vnoremap me  g_
 nnoremap <silent> <C-\> :vsplit<CR>
 
 nnoremap <silent> ff :Format<CR>
-
-nmap <leader>cr <Plug>(coc-references)
-nmap <C-a> <C-o>
-nmap <silent> gd <Plug>(coc-definition)
-nmap <leader>r <Plug>(coc-rename)
 
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeWinSize=50
@@ -288,6 +294,7 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_bo
       \ },
       \ 'border': 'rounded',
       \ })))
+
 
 
 autocmd BufWritePre * :%s/\s\+$//e
